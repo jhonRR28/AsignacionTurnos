@@ -12,8 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->fetch();
     $nuevo_turno = $result['max_numero'] + 1;
 
-    $stmt = $conn->prepare("INSERT INTO usuarios (cedula, nombre, correo) VALUES (?, ?, ?)");
-    $stmt->execute([$cedula, $username, $email]);
+    if (buscarRepetido($cedula, $conn) == 0) {
+      $stmt = $conn->prepare("INSERT INTO usuarios (cedula, nombre, correo) VALUES (?, ?, ?)");
+      $stmt->execute([$cedula, $username, $email]);
+    }
   
     $stmt = $conn->prepare("INSERT INTO turnos (servicio_id, usuario_cedula, numero) VALUES (?, ?, ?)");
     $stmt->execute([$ventanilla, $cedula, $nuevo_turno]);
@@ -21,5 +23,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: mostrar.php?dato=" . urlencode($nuevo_turno));
   } else {
     echo "Error al llenar formulario";
+  }
+
+  function buscarRepetido($cedula, $conn) {
+    $stmt = $conn->prepare("SELECT * FROM usuarios WHERE cedula = ?");
+    $stmt->execute([$cedula]);
+
+    if($stmt->rowCount() > 0) {
+      return 1;
+    }else {
+      return 0;
+    }
   }
 ?>

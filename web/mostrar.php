@@ -12,6 +12,12 @@ $turno_actual = $_GET['dato'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turnos Actuales</title>
     <link rel="stylesheet" href="stylesm.css">
+    <script>
+        // Script para actualizar la página cada 5 segundos
+        setInterval(function(){
+            window.location.reload();
+        }, 5000);
+    </script>
 </head>
 
 <body>
@@ -35,16 +41,26 @@ $turno_actual = $_GET['dato'];
                 foreach ($cajas as $caja):
                     $id_caja = $caja['id'];
                     $nombre_caja = $caja['nombre'];
-                    $stmt = $conn->prepare("SELECT MAX(numero) AS max_numero FROM turnos WHERE servicio_id = ? ORDER BY id ASC LIMIT 1");
+                    $stmt = $conn->prepare("SELECT * FROM turnos WHERE servicio_id = ? AND estado = 'pendiente' ORDER BY id ASC LIMIT 1");
                     $stmt->execute([$id_caja]);
-                    $turno = $stmt->fetch();
-                ?>
-                <div class="cajero-turnos" id="cajero1Turnos">
-                <h3><?php echo $nombre_caja?></h3>
-                <p id="cajero1Numero"><?php echo $turno['max_numero']?></p>
-                <ul id="cajero1Lista"></ul>
-                </div>
-                <?php 
+                    if($stmt->rowCount() > 0) {
+                        $turno = $stmt->fetch();
+                        ?>
+                        <div class="cajero-turnos" id="cajero1Turnos">
+                        <h3><?php echo $nombre_caja?></h3>
+                        <p id="cajero1Numero"><?php echo $turno['numero']?></p>
+                        <ul id="cajero1Lista"></ul>
+                        </div>
+                        <?php
+                    }else {
+                        ?>
+                        <div class="cajero-turnos" id="cajero1Turnos">
+                        <h3><?php echo $nombre_caja?></h3>
+                        <p id="cajero1Numero">Sin Turnos</p>
+                        <ul id="cajero1Lista"></ul>
+                        </div>
+                        <?php
+                    }
                 endforeach; ?>
             </div>
         </div>
