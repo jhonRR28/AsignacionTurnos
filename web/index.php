@@ -1,58 +1,46 @@
-<?php
-require 'db.php';
-
-$stmt = $conn->query("SELECT * FROM servicios");
-$cajas = $stmt->fetchAll();
-
-?>
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Turnos</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="validation.js" defer></script>
+    <title>Ventana Principal</title>
+    <link rel="stylesheet" href="stylesp.css">
+    <link rel="shortcut icon" href="../img/disponibilidad.png">
+
 </head>
 
 <body>
     <div class="navbar">
         <div class="user-container">
-            <button class="user-btn">Administrador</button>
+            <button class="user-btn" onclick="window.location.href='index.php'">Solicitar Turno</button>
+            <button class="user-btn" onclick="window.location.href='mostrar.php'">Mostrar Turno</button>
+            <button class="user-btn" onclick="window.location.href='login.html'">Iniciar Sesión</button>
         </div>
     </div>
-    <div class="margen"></div>
-    <div class="container">
-        <h1>Sistema de Turnos</h1>
-        <form id="turnoForm" action="asignar-turno.php" method="post" novalidate>
-            <div class="form-group">
-                <label for="cajero">Cajero:</label>
-                <select id="cajero" name="ventanilla" required>
-                <?php foreach ($cajas as $caja): ?>
-                  <option value="<?= $caja['id'] ?>"><?= $caja['nombre'] ?></option>
-                <?php endforeach; ?>
-                </select>
-                <span class="error" id="cajeroError"></span>
+    <div class="main-container">
+        <h1>Bienvenido al Sistema de Turnos</h1><br>
+        <p class="welcome-message">
+            Estimado cliente, le damos la más cordial bienvenida a nuestro sistema de turnos en línea. 
+            Nos complace tenerle con nosotros y estamos comprometidos en ofrecerle un servicio rápido, 
+            eficiente y seguro.
+        </p>
+        <h2>Seleccione una de las siguientes opciones para continuar:</h2><br><br>
+        <div class="icons-container">
+            <a href="solicitar_turno.php?dato=1" class="icon-card">
+                <h2>- Retiros -</h2><br>
+                <img src="../img/retiro.jpg" alt="Retiros"><br>
+            </a>
+            <a href="solicitar_turno.php?dato=2" class="icon-card">
+                <h2>- Consignaciones -</h2><br>
+                <img src="../img/consignacion.jpg" alt="Consignaciones"><br>
+            </a>
+            <a href="solicitar_turno.php?dato=3" class="icon-card">
+                <h2>- Atención al Cliente -</h2><br>
+                <img src="../img/atencion.png" alt="Atención al Cliente"><br>
+            </a>
             </div>
-            <div class="form-group">
-                <label for="cedula">Cédula:</label>
-                <input type="text" id="cedula" name="cedula" required>
-                <span class="error" id="cedulaError"></span>
-            </div>
-            <div class="form-group">
-                <label for="username">Nombre de Usuario:</label>
-                <input type="text" id="username" name="username" required>
-                <span class="error" id="usernameError"></span>
-            </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <span class="error" id="emailError"></span>
-            </div><br>
-
-            <button type="submit">Solicitar Turno</button>
-        </form>
+        </div>
     </div>
 </body>
 

@@ -46,13 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
             isValid = false;
         }
 
-        // Validate Cajero
-        if (cajero.value === '') {
-            cajeroError.textContent = 'Por favor, selecciona un cajero.';
-            isValid = false;
-        } else {
-            cajeroError.textContent = '';
-        }
 
 
         if (isValid) {
@@ -60,11 +53,4 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    cajero.addEventListener('change', function () {
-        if (cajero.value === '') {
-            cajeroError.textContent = 'Por favor, selecciona un cajero.';
-        } else {
-            cajeroError.textContent = '';
-        }
-    });
 });
