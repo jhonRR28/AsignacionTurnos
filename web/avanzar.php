@@ -1,27 +1,6 @@
 <?php
 require 'db.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $ventanilla = $_POST['ventanilla'];
-    $cedula = $_POST['cedula'];
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-  
-    $stmt = $conn->prepare("SELECT MAX(numero) AS max_numero FROM turnos WHERE servicio_id = ?");
-    $stmt->execute([$ventanilla]);
-    $result = $stmt->fetch();
-    $nuevo_turno = $result['max_numero'] + 1;
-
-    $stmt = $conn->prepare("INSERT INTO usuarios (cedula, nombre, correo) VALUES (?, ?, ?)");
-    $stmt->execute([$cedula, $username, $email]);
-  
-    $stmt = $conn->prepare("INSERT INTO turnos (servicio_id, usuario_cedula, numero) VALUES (?, ?, ?)");
-    $stmt->execute([$ventanilla, $cedula, $nuevo_turno]);
-  
-    header("Location: mostrar.php?dato=" . urlencode($nuevo_turno));
-  } else {
-    echo "Error al llenar formulario";
-  }
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -43,24 +22,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <h1>Administrar Turnos</h1>
         <div class="turnos-admin">
-            <div class="cajero-turnos" id="cajero1Turnos">
-                <h3>Cajero 1</h3>
-                <h3><img src="icono1.png" alt="Cajero 1" class="cajero-icon"> Cajero 1</h3>
-                <p id="cajero1Numero">A: 1</p>
-                <button onclick="avanzarTurno('cajero1')">Avanzar Turno</button>
-            </div>
-            <div class="cajero-turnos" id="cajero2Turnos">
-                <h3>Cajero 2</h3>
-                <h3><img src="icono1.png" alt="Cajero 2" class="cajero-icon"> Cajero 2</h3>
-                <p id="cajero2Numero">B: 1</p>
-                <button onclick="avanzarTurno('cajero2')">Avanzar Turno</button>
-            </div>
-            <div class="cajero-turnos" id="cajero3Turnos">
-                <h3>Cajero 3</h3>
-                <h3><img src="icono1.png" alt="Cajero 3" class="cajero-icon"> Cajero 3</h3>
-                <p id="cajero3Numero">C: 1</p>
-                <button onclick="avanzarTurno('cajero3')">Avanzar Turno</button>
-            </div>
+            <?php
+            $stmt = $conn->prepare("SELECT * FROM cajeros");
+            $stmt->execute();
+            $cajeros = $stmt->fetchAll();
+            foreach ($cajeros as $caja):
+                $id_caja = $caja['id'];
+                $nombre_caja = $caja['nombre'];
+                $nombre_atiende = $caja['empleado'];
+                $stmt = $conn->prepare("SELECT * FROM turnos WHERE cajero_id = ? AND estado = 'atendiendo' ORDER BY id ASC LIMIT 1");
+                $stmt->execute([$id_caja]);
+                if($stmt->rowCount() > 0) {
+                    $turno = $stmt->fetch();
+                    ?>
+                    <div class="cajero-turnos" id="cajero<?php echo $id_caja ?>">
+                        <h3><?php echo $nombre_caja ?></h3>
+                        <h3><img src="icono1.png" alt="Cajero 1" class="cajero-icon"> Cajero 1</h3>
+                        <p><?php echo $nombre_atiende ?></p>
+                        <p id="cajero<?php echo $id_caja ?>Numero"><?php echo $turno['numero'] ?></p>
+                        <button onclick="avanzarTurno('<?php echo $id_caja ?>')">Avanzar Turno</button>
+                    </div>
+                    <?php
+                }else {
+                    ?>
+                    <div class="cajero-turnos" id="cajero<?php echo $id_caja ?>">
+                        <h3><?php echo $nombre_caja ?></h3>
+                        <h3><img src="icono1.png" alt="Cajero 1" class="cajero-icon"> Cajero 1</h3>
+                        <p><?php echo $nombre_atiende ?></p>
+                        <p id="cajero<?php echo $id_caja ?>Numero">No asignado</p>
+                        <button onclick="avanzarTurno('<?php echo $id_caja ?>')">Avanzar Turno</button>
+                    </div>
+                    <?php
+                }
+            endforeach;
+            ?>
         </div>
     </div>
 </body>

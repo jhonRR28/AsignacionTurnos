@@ -15,7 +15,7 @@
         <div class="user-container">
             <button class="user-btn" onclick="window.location.href='index.php'">Solicitar Turno</button>
             <button class="user-btn" onclick="window.location.href='mostrar.php'">Mostrar Turno</button>
-            <button class="user-btn" onclick="window.location.href='login.html'">Iniciar Sesión</button>
+            <button class="user-btn" onclick="window.location.href='avanzar.php'">Iniciar Sesión</button>
         </div>
     </div>
     <div class="main-container">

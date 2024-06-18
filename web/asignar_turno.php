@@ -2,7 +2,7 @@
 require 'db.php';
 echo "entro a asignar";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $servicio = $_POST['serivicio'];
+    $servicio = $_POST['servicio'];
     $cedula = $_POST['cedula'];
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -20,8 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
     $stmt = $conn->prepare("INSERT INTO turnos (servicio_id, usuario_cedula, numero) VALUES (?, ?, ?)");
     $stmt->execute([$servicio, $cedula, $nuevo_turno]);
+
+    echo $nuevo_turno;
   
-    header("Location: mostrar.php?dato=" . urlencode($nuevo_turno));
+    echo "<script>window.location.href = 'mostrar.php?dato=" . $nuevo_turno . "';</script>";
   } else {
     echo "Error al llenar formulario";
   }

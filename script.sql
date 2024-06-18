@@ -35,9 +35,9 @@ CREATE TABLE turnos (
 
 
 INSERT INTO cajeros (id, nombre, empleado) VALUES
-(1, 'Caja C', 'Brayan Cabrera'),
-(2, 'Caja ', 'Maria Paz'),
-(3, 'Caja 3', 'Carlos Males');
+(1, 'Caja R', 'Brayan Cabrera'),
+(2, 'Caja C', 'Maria Paz'),
+(3, 'Caja A', 'Carlos Males');
 
 INSERT INTO servicios (nombre) VALUES
 ('Retiros'),

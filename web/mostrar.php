@@ -25,7 +25,7 @@ if (isset($_GET['dato'])) {
         <div class="user-container">
             <button class="user-btn" onclick="window.location.href='index.php'">Solicitar Turno</button>
             <button class="user-btn" onclick="window.location.href='mostrar.php'">Mostrar Turno</button>
-            <button class="user-btn" onclick="window.location.href='login.html'">Iniciar Sesión</button>
+            <button class="user-btn" onclick="window.location.href='avanzar.php'">Iniciar Sesión</button>
         </div>
     </div>
     <div class="container">
@@ -34,8 +34,8 @@ if (isset($_GET['dato'])) {
             <table>
                 <thead>
                     <tr>
-                        <th>Servicio</th>
                         <th>Cajero</th>
+                        <th>Empleado</th>
                         <th>Turno Actual</th>
                     </tr>
                 </thead>
@@ -44,9 +44,9 @@ if (isset($_GET['dato'])) {
                 $stmt = $conn->query("SELECT * FROM cajeros");
                 $cajeros = $stmt->fetchAll(); 
                 foreach ($cajeros as $caja):
-                    $id_caja = $cajeros['id'];
-                    $nombre_caja = $cajeros['nombre'];
-                    $nombre_atiende = $cajeros['empleado'];
+                    $id_caja = $caja['id'];
+                    $nombre_caja = $caja['nombre'];
+                    $nombre_atiende = $caja['empleado'];
                     $stmt = $conn->prepare("SELECT * FROM turnos WHERE cajero_id = ? AND estado = 'atendiendo' ORDER BY id ASC LIMIT 1");
                     $stmt->execute([$id_caja]);
                     if($stmt->rowCount() > 0) {
