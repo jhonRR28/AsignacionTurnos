@@ -10,7 +10,7 @@ require 'db.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador de Turnos</title>
     <link rel="stylesheet" href="stylesa.css">
-    <script src="admin.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -59,5 +59,27 @@ require 'db.php';
         </div>
     </div>
 </body>
-
+<script>
+    function avanzarTurno(idCajero) {
+        $.ajax({
+            url: 'actualizar_turno.php',
+            type: 'POST',
+            data: {
+                cajero_id: idCajero
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                alert(data.message);
+                // Disparar el evento de almacenamiento local para notificar la actualización
+                localStorage.setItem('turno_avanzado', JSON.stringify({
+                    timestamp: new Date().getTime(),
+                    nuevo_turno: data.nuevo_turno
+                }));
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+        }
+</script>
 </html>

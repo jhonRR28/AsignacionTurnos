@@ -15,9 +15,53 @@ if (isset($_GET['dato'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mostrar de Turnos</title>
     <link rel="stylesheet" href="stylesa.css">
+    <style>
+        .alert {
+            padding: 20px;
+            background-color: #006db2;
+            color: white;
+            margin-bottom: 15px;
+        }
+    </style>
     <link rel="shortcut icon" href="../img/disponibilidad.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="admin.js" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function actualizarTurnos() {
+            $.ajax({
+                url: 'obtener_turnos.php',
+                type: 'GET',
+                success: function(data) {
+                    $('#turnos').html(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            // Cargar turnos inicialmente
+            actualizarTurnos();
+
+            // Escuchar eventos de almacenamiento local
+            window.addEventListener('storage', function(event) {
+                if (event.key === 'turno_avanzado') {
+                    actualizarTurnos();
+
+                    var data = JSON.parse(event.newValue);
+                    var siguiente_turno = data.siguiente_turno;
+
+                    // Mostrar alerta con el siguiente turno
+                    $('#alerta_turno').html(
+                        `<div class="alert">
+                            <strong>Próximo turno:</strong> ${siguiente_turno}
+                        </div>`
+                    );
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -29,58 +73,10 @@ if (isset($_GET['dato'])) {
         </div>
     </div>
     <div class="container">
+        <div id="alerta_turno"></div>
         <div class="left-column">
             <h1>Mostrar Turnos</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Cajero</th>
-                        <th>Empleado</th>
-                        <th>Turno Actual</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php 
-                $stmt = $conn->query("SELECT * FROM cajeros");
-                $cajeros = $stmt->fetchAll(); 
-                foreach ($cajeros as $caja):
-                    $id_caja = $caja['id'];
-                    $nombre_caja = $caja['nombre'];
-                    $nombre_atiende = $caja['empleado'];
-                    $stmt = $conn->prepare("SELECT * FROM turnos WHERE cajero_id = ? AND estado = 'atendiendo' ORDER BY id ASC LIMIT 1");
-                    $stmt->execute([$id_caja]);
-                    if($stmt->rowCount() > 0) {
-                        $turno = $stmt->fetch();
-                        ?>
-                        <tr>
-                        <td><?php echo $nombre_caja;?></td>
-                        <td><?php echo $nombre_atiende;?></td>
-                        <td id="cajero1Numero"><?php echo $turno['numero'];?></td>
-                        </tr>
-                        <?php
-                    }else {
-                        ?>
-                        <tr>
-                        <td><?php echo $nombre_caja;?></td>
-                        <td>No asignado</td>
-                        <td id="cajero1Numero">En espera</td>
-                        </tr>
-                        <?php
-                    }
-                endforeach; ?>
-                <!--<tr>
-                        <td>Cajero 1</td>
-                        <td id="cajero1Numero">A: 1</td>
-                    </tr>
-                    <tr>
-                        <td>Cajero 2</td>
-                        <td id="cajero2Numero">B: 1</td>
-                    </tr>
-                    <tr>
-                        <td>Cajero 3</td>
-                        <td id="cajero3Numero">C: 1</td>
-                    </tr> -->
-                </tbody>
+            <table id="turnos">
             </table><br>
             <img src="../img/ttt.jpg" alt="turnos"><br>
         </div>
