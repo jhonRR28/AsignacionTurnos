@@ -17,6 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $stmt = $conn->prepare("INSERT INTO usuarios (cedula, nombre, correo, telefono) VALUES (?, ?, ?, ?)");
       $stmt->execute([$cedula, $username, $email, $telefono]);
     }
+
+    $_SESSION['codigo'] = $cedula;
+    $_SESSION['username'] = $username;
+    $_SESSION['rol'] = 'user';
+    $_SESSION['turno'] = $nuevo_turno;
   
     $stmt = $conn->prepare("INSERT INTO turnos (servicio_id, usuario_cedula, numero) VALUES (?, ?, ?)");
     $stmt->execute([$servicio, $cedula, $nuevo_turno]);

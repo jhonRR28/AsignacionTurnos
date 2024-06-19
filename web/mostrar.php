@@ -1,11 +1,11 @@
 <?php
 require 'db.php';
-
-if (isset($_GET['dato'])) {
-    $mi_turno = $_GET['dato'];
-} else {
-    $mi_turno = "";
+if (!isset($_SESSION['turno'])) {
+    $mi_turno = $_SESSION['turno'];
+}else {
+    $mi_turno = "Ningun turno asignado";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -50,12 +50,12 @@ if (isset($_GET['dato'])) {
                     actualizarTurnos();
 
                     var data = JSON.parse(event.newValue);
-                    var siguiente_turno = data.siguiente_turno;
+                    var nuevo_turno = data.nuevo_turno;
 
                     // Mostrar alerta con el siguiente turno
                     $('#alerta_turno').html(
                         `<div class="alert">
-                            <strong>Próximo turno:</strong> ${siguiente_turno}
+                            <strong>Próximo turno:</strong> ${nuevo_turno}
                         </div>`
                     );
                 }

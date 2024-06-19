@@ -1,6 +1,18 @@
 <?php
 require 'db.php';
 
+session_start(); 
+
+if (!isset($_SESSION['rol'])) {
+    header("location: login.php");
+    exit;
+}
+
+if ($_SESSION['rol'] != 'admin') {
+    header("location: login.php");
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

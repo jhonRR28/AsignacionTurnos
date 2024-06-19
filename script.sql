@@ -5,7 +5,7 @@ CREATE TABLE usuarios (
     nombre VARCHAR(255) NOT NULL,
     correo VARCHAR(255) NOT NULL,
     telefono VARCHAR(100),
-    contraseña VARCHAR(255),
+    password VARCHAR(255),
     rol VARCHAR(10) DEFAULT 'user'
 );
 
@@ -44,5 +44,5 @@ INSERT INTO servicios (nombre) VALUES
 ('Consignacion'),
 ('Atencion al Cliente');
 
-INSERT INTO usuarios (cedula, nombre, correo, telefono, contraseña, rol)
+INSERT INTO usuarios (cedula, nombre, correo, telefono, password, rol)
 VALUES ('000', 'admin', 'admin@example.com', '555-1234','123456', 'admin');

@@ -1,6 +1,11 @@
 <?php
 require 'db.php'; // Incluye tu archivo de conexión a la base de datos
 
+if (!isset($_SESSION['username'])) {
+    header("location: login.php");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cajero_id'])) {
     $servicio_id = $_POST['servicio_id'];
 
@@ -14,12 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cajero_id'])) {
 
         // Obtener el nuevo turno actualizado
         // $stmt = $conn->prepare("SELECT numero FROM turnos WHERE cajero_id = ? AND estado = 'pendiente' ORDER BY id ASC LIMIT 1");
-        $stmt = $conn->prepare("SELECT numero FROM turnos WHERE estado = 'pendiente' ORDER BY id ASC LIMIT 1");
+        $stmt = $conn->prepare("SELECT id,numero FROM turnos WHERE estado = 'pendiente' ORDER BY id ASC LIMIT 1");
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
             $turno = $stmt->fetch();
             $nuevo_turno = $turno['numero'];
-            
+            $id_turno = $turno['id'];
+            $stmt = $conn->prepare("UPDATE turnos SET estado = 'atendiendo', cajero_id = ? WHERE id = ?");
+            $stmt->execute([$cajero_id, $id_turno]);
             // Devolver el nuevo número de turno como respuesta JSON
             echo json_encode([
                 "message" => "El turno ha sido avanzado.",
