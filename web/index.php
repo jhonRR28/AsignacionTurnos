@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ventana Principal</title>
     <link rel="stylesheet" href="stylesp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="../img/disponibilidad.png">
 
 </head>
@@ -29,15 +36,18 @@
         <div class="icons-container">
             <a href="solicitar_turno.php?dato=1" class="icon-card">
                 <h2>- Retiros -</h2><br>
-                <img src="../img/retiro.jpg" alt="Retiros"><br>
+                <i class="fa fa-money fa-5x icon"></i>
+                <br>
             </a>
             <a href="solicitar_turno.php?dato=2" class="icon-card">
                 <h2>- Consignaciones -</h2><br>
-                <img src="../img/consignacion.jpg" alt="Consignaciones"><br>
+                <i class="fa fa-bank fa-5x icon"></i>
+                <br>
             </a>
             <a href="solicitar_turno.php?dato=3" class="icon-card">
                 <h2>- Atención al Cliente -</h2><br>
-                <img src="../img/atencion.png" alt="Atención al Cliente"><br>
+                <i class="fa fa-headphones fa-5x icon"></i>
+                <br>
             </a>
             </div>
         </div>

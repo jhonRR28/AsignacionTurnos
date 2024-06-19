@@ -1,6 +1,9 @@
 <?php
 require 'db.php';
-if (!isset($_SESSION['turno'])) {
+
+session_start();
+
+if (isset($_SESSION['turno']) && $_SESSION['turno'] != "") {
     $mi_turno = $_SESSION['turno'];
 }else {
     $mi_turno = "Ningun turno asignado";
@@ -24,7 +27,7 @@ if (!isset($_SESSION['turno'])) {
         }
     </style>
     <link rel="shortcut icon" href="../img/disponibilidad.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function actualizarTurnos() {
@@ -78,7 +81,7 @@ if (!isset($_SESSION['turno'])) {
             <h1>Mostrar Turnos</h1>
             <table id="turnos">
             </table><br>
-            <img src="../img/ttt.jpg" alt="turnos"><br>
+            <i class="fa fa-list fa-5x icon"></i><br>
         </div>
         <div class="right-column">
             <h1>Mi Turno</h1>

@@ -1,3 +1,9 @@
+<?php
+
+session_start();
+
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +16,9 @@
 <body>
     <div class="navbar">
         <div class="user-container">
-            <button class="user-btn" onclick="window.location.href='principal.html'">Solicitar Turno</button>
-            <button class="user-btn" onclick="window.location.href='avanzar.html'">Mostrar Turno</button>
-            <button class="user-btn" onclick="window.location.href='login.html'">Iniciar Sesión</button>
+            <button class="user-btn" onclick="window.location.href='index.php'">Solicitar Turno</button>
+            <button class="user-btn" onclick="window.location.href='mostrar.php'">Mostrar Turno</button>
+            <button class="user-btn" onclick="window.location.href='login.php'">Iniciar Sesión</button>
         </div>
     </div>
     <div class="container">

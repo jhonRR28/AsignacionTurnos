@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['codigo'] = $codigo;
         $_SESSION['username'] = $nombre;
         $_SESSION['rol'] = 'admin';
+        $_SESSION['turno'] = "";
         header("location: avanzar.php");
         exit;
     } else {

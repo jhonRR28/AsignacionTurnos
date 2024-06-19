@@ -1,6 +1,8 @@
 <?php
 require 'db.php';
 
+session_start();
+
 if (isset($_GET['dato'])) {
     $servicio = $_GET['dato'];
 } else {
@@ -16,6 +18,7 @@ if (isset($_GET['dato'])) {
     <title>Sistema de Turnos</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="../img/disponibilidad.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="validation.js" defer></script>
 </head>
 
@@ -30,7 +33,7 @@ if (isset($_GET['dato'])) {
     <div class="margen"></div>
     <div class="container">
         <h1>Sistema de Turnos</h1>
-        <img src="../img/turnos.png" alt="turnos"><br>
+        <i class="fa fa-ticket fa-5x icon"></i><br>
         <form id="turnoForm" action="asignar_turno.php" method="post">
             <div class="form-group">
                 <label for="cedula">Cédula:</label>

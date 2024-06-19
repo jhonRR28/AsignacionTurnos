@@ -1,14 +1,14 @@
 <?php
 require 'db.php'; // Incluye tu archivo de conexión a la base de datos
 
+session_start(); 
+
 if (!isset($_SESSION['username'])) {
     header("location: login.php");
     exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cajero_id'])) {
-    $servicio_id = $_POST['servicio_id'];
-
     try {
         // Obtener el ID del cajero desde la solicitud POST
         $cajero_id = $_POST['cajero_id'];

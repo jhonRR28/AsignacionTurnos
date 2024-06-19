@@ -1,6 +1,8 @@
 <?php
 require 'db.php';
-echo "entro a asignar";
+
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servicio = $_POST['servicio'];
     $cedula = $_POST['cedula'];

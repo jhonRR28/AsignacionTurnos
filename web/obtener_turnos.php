@@ -1,6 +1,8 @@
 <?php
 require 'db.php';
 
+session_start();
+
 try {
     echo '<thead>
         <tr>

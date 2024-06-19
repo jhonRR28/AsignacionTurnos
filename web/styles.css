@@ -201,3 +201,11 @@ img {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Icon styles */
+.icon {
+    display: block;
+    margin: 0 auto 10px;
+    font-size: 100px; /* Adjust size as needed */
+    color: #007bff;
+}
